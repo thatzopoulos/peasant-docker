@@ -10,9 +10,12 @@ git \
 wget \
 build-essential \
 ncbi-blast+ \
-pip 
+python-pip \
+libc6-dev \
+zlib1g-dev \
+curl
 
-
+ADD SPAdes-3.10.1-Linux.tar.gz spades
 ADD g3-iterated-viral.csh g3-iterated-viral.csh 
 ADD BBMap_37.36.tar.gz bbmap
 #ADD tRNAscan-SE.tar.gz tRNAscan
@@ -26,11 +29,13 @@ RUN git clone https://github.com/jlbren/peasant
 RUN mv peasant/* /
 
 #SICKLE Setup
-RUN git clone https://github.com/najoshi/sickle.git
-WORKDIR sickle
-RUN make
-RUN mv sickle /bin/
-WORKDIR /
+RUN git clone https://github.com/najoshi/sickle.git \
+    && cd sickle \
+    && make \
+    && cd .. \
+    && cp sickle/sickle /usr/bin \
+    && rm -r sickle
+
 
 #Spades Setup
 RUN mv spades/SPAdes-3.10.1-Linux/* spades/
