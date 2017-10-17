@@ -72,8 +72,7 @@ make clean && \
 mv /usr/include/stdio.h~ /usr/include/stdio.h && \
 rm -rf /tmp/*
 
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 
 ENV PATH /bbmap/bbmap:/spades/bin:/blast:$PATH
