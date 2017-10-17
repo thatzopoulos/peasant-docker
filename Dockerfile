@@ -1,8 +1,8 @@
 FROM ubuntu
 
 RUN apt-get update && apt-get install -y \
-python2 \ 
-python2-dev \  
+python \ 
+python-dev \  
 gcc \
 unzip \
 make \
@@ -10,6 +10,7 @@ git \
 wget \
 build-essential \
 ncbi-blast+ \
+pip 
 
 
 ADD g3-iterated-viral.csh g3-iterated-viral.csh 
