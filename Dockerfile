@@ -73,6 +73,9 @@ make clean && \
 mv /usr/include/stdio.h~ /usr/include/stdio.h && \
 rm -rf /tmp/*
 
+#updated Database line path
+RUN sed -i "/database_path=/c\database_path='/mirroredFiles/databases'" peasant.py
+
 RUN pip install -r requirements.txt
 
 
