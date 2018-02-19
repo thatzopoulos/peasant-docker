@@ -13,6 +13,7 @@ ncbi-blast+ \
 python-pip \
 libc6-dev \
 zlib1g-dev \
+vim \
 curl
 
 ADD SPAdes-3.10.1-Linux.tar.gz spades
