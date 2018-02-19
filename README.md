@@ -24,8 +24,6 @@ To pull up peasant help for parameters while in the docker container:
 python3 peasant.py -h
 ```
 
-The peasant.py script must be modified by the user to set the path where the databases (RNA and bacteria) are located:  
-`database_path='/mydirectory/peasant/databases'`
 
 Links to Example Databases:
 https://drive.google.com/drive/folders/0B3MjIo6BB7_1NGZTN3l4WXl5VEE
@@ -34,27 +32,6 @@ https://drive.google.com/drive/folders/0B3MjIo6BB7_1NGZTN3l4WXl5VEE
 For documentation using peasant, refer to [here](https://github.com/jlbren/peasant).
 
 Note: 'peasantDockerOutputFolder' (the folder where Docker expects output to be written) must be the same folder specified when running peasant.py, the -o option.
-
-### Prerequisites
-
-Docker is the only prerequisite for this program to run, all other dependencies are handled by the Dockerfile.
-
-The dependencies handled by the Dockerfile that are both installed and added to PATH are:
-
-1. Operating System: UNIX/Mac OSX
-2. GCC Compiler: http://gcc.gnu.org/
-3. Python – Version 2.6+: https://www.python.org/downloads/
-4. BioPython Package 1.68: http://biopython.org/wiki/Download
-   1. NumPy: http://www.scipy.org/scipylib/download.html
-5. Sickle: https://github.com/ucdavis-bioinformatics/sickle
-   1. Zlib: http://www.zlib.net/
-6. SPAdes 3.10.1: http://bioinf.spbau.ru/content/spades-download
-7. GLIMMER3: http://ccb.jhu.edu/software/glimmer/index.shtml
-   1. ELPH: http://www.cbcb.umd.edu/software/ELPH/
-8. BLAST+ Binaries: ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
-9. BBMap: https://sourceforge.net/projects/bbmap/
-   1. JAVA v6+: https://www.java.com/en/download/ie_manual.jsp?locale=en  
-10. tRNAScan-SE: http://eddylab.org/software.html
 
 ## Advanced Usage
 ## Usage: peasant.py [assembly options] [filter options] [database] [homology options] -o output_path
