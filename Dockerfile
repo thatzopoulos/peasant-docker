@@ -18,12 +18,24 @@ curl
 
 ADD SPAdes-3.10.1-Linux.tar.gz spades
 ADD g3-iterated-viral.csh g3-iterated-viral.csh 
-ADD BBMap_37.36.tar.gz bbmap
+#ADD BBMap_37.36.tar.gz bbmap
 #ADD tRNAscan-SE.tar.gz tRNAscan
 ADD requirements.txt requirements.txt
 
 
 RUN python -m pip install biopython
+
+#Get BBMAP
+ENV URL http://downloads.sourceforge.net/project/bbmap/BBMap_36.28.tar.gz
+ENV BUILD_DIR /usr/local/bbmap
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    openjdk-8-jre openjdk-8-jdk \
+    && rm -rf /var/lib/apt/lists/*
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+RUN wget $URL -O - | tar -xz
+#RUN make -C bbmap/jni -f makefile.linux
+RUN find bbmap -type f -exec ls -s '{}' /usr/local/bin/ \;
+
 
 #Get Peasant
 RUN git clone https://github.com/jlbren/peasant
@@ -79,4 +91,4 @@ RUN sed -i "/database_path=/c\database_path='/mirroredFiles/databases'" peasant.
 RUN pip install -r requirements.txt
 
 
-ENV PATH /bbmap/bbmap:/spades/bin:/blast:$PATH
+ENV PATH /spades/bin:/blast:$PATH
