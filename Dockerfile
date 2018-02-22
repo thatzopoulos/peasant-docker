@@ -14,7 +14,8 @@ python-pip \
 libc6-dev \
 zlib1g-dev \
 vim \
-curl
+curl \
+csh
 
 ADD SPAdes-3.10.1-Linux.tar.gz spades
 ADD g3-iterated-viral.csh g3-iterated-viral.csh 
@@ -54,6 +55,16 @@ RUN git clone https://github.com/najoshi/sickle.git \
 RUN mv spades/SPAdes-3.10.1-Linux/* spades/
 RUN rm -r spades/SPAdes-3.10.1-Linux
 
+#ELPH Setup
+ENV ELPH_VERSION 1.0.1
+ENV ELPH_DIR /opt/ELPH
+RUN mkdir -p $ELPH_DIR
+RUN curl -SL ftp://ftp.cbcb.umd.edu/pub/software/elph/ELPH-$ELPH_VERSION.tar.gz | tar -xzC $ELPH_DIR
+RUN cd $ELPH_DIR/ELPH/sources && make
+RUN mkdir -p $ELPH_DIR/bin
+RUN mv $ELPH_DIR/ELPH/sources/elph $ELPH_DIR/bin/elph
+ENV PATH $ELPH_DIR/bin:$PATH
+
 #Get Glimmer3
 ENV GLIMMER_VERSION 302b
 ENV GLIMMER_DIR /opt/glimmer
@@ -63,12 +74,18 @@ RUN curl -SL https://ccb.jhu.edu/software/glimmer/glimmer$GLIMMER_VERSION.tar.gz
 RUN cd $GLIMMER_DIR/$GLIMMER_SUBDIR/src && make
 #Add glimmer to PATH
 ENV PATH $GLIMMER_DIR/$GLIMMER_SUBDIR/bin:$GLIMMER_DIR/$GLIMMER_SUBDIR/scripts:$PATH
+
 #Update hard-coded paths in g3-iterated.csh 
 RUN sed -i "s|/fs/szgenefinding/Glimmer3|${GLIMMER_DIR}/${GLIMMER_SUBDIR}|g" $GLIMMER_DIR/$GLIMMER_SUBDIR/scripts/g3-iterated.csh
 RUN sed -i "s|/nfshomes/adelcher/bin/elph|${ELPH_DIR}/bin/elph|g" $GLIMMER_DIR/$GLIMMER_SUBDIR/scripts/g3-iterated.csh
 RUN sed -i "s|/bin/awk|/usr/bin/awk|g" $GLIMMER_DIR/$GLIMMER_SUBDIR/scripts/*.awk
 
 RUN cp $GLIMMER_DIR/$GLIMMER_SUBDIR/scripts/g3-iterated.csh .
+
+#chmod steps
+RUN chmod u+x $ELPH_DIR/bin
+RUN chmod u+x g3-iterated-viral.csh
+RUN chmod u+x g3-iterated.csh
 
 #Get tRNAScan-SE
 RUN cp /usr/include/stdio.h /usr/include/stdio.h~ && \
@@ -78,6 +95,7 @@ wget http://lowelab.ucsc.edu/software/tRNAscan-SE-1.23.tar.gz && \
 tar xzvf tRNAscan-SE-1.23.tar.gz && \
 cd tRNAscan-SE-1.23 && \
 export HOME=/usr/local && \
+#./configure \
 make && \
 make install && \
 make testrun && \
