@@ -4,9 +4,13 @@ The Prokaryotic Assembly and Annotation Tool, Peasant, automates the processes o
 
 ## Getting Started
 
+Prerequisites
+
+Docker is the only prerequisite for this program to run, all other dependencies are handled by the Dockerfile. https://docs.docker.com/install/
+
 Clone project:
 ```
-git clone github.com/thatzopoulos/peasant-docker.git
+git clone https://github.com/thatzopoulos/peasant-docker.git
 ```
 
 Move files that you want to run to inputFiles if you want to build the image with those files already inside, if not, use the -v flag shown below to mirror a local folder within the Docker image.
@@ -15,17 +19,20 @@ From within the project folder run:
 ```python
 sudo docker build -t peasant .
 ```
+
+If the build was successful, next run peasant as follows:
+
 ```python
-sudo docker run -v /pathToLocalFolder/runName:/peasantDockerOutputFolder -i -t peasant
+sudo docker run -v /fullPathToLocalFolder/peasant-docker/mirroredFiles/:/mirroredFiles/ -i -t peasant
 ```
 
 To pull up peasant help for parameters while in the docker container:
 ```python
-python3 peasant.py -h
+python peasant.py -h
 ```
 
 
-Links to Example Databases:
+Links to precomputed bacterial databases for generating annotations:
 https://drive.google.com/drive/folders/0B3MjIo6BB7_1NGZTN3l4WXl5VEE
 
 
